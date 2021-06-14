@@ -1,0 +1,41 @@
+{
+  "name": "node-auth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose --runInBand --testLocationInResults --setupFiles dotenv/config",
+    "test:watch": "npm run test -- --watch",
+    "start": "node -r dotenv/config server.js",
+    "start:watch": "nodemon -r dotenv/config server.js",
+    "setup-db": "node -r dotenv/config setup-db.js",
+    "setup-heroku": "heroku run npm run setup-db"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.14.5",
+    "@babel/plugin-syntax-class-properties": "^7.12.13",
+    "@types/jest": "^26.0.23",
+    "@types/pg": "^8.6.0",
+    "eslint": "^7.28.0",
+    "jest": "^27.0.4",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.1",
+    "supertest": "^6.1.3"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.6.0"
+  }
+}
