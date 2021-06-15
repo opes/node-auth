@@ -29,8 +29,8 @@ describe('node-auth', () => {
     return setup(pool, false);
   });
 
-  afterEach(() => {
-    agent.delete('/api/v1/session');
+  afterEach(async () => {
+    await agent.delete('/api/v1/session');
   });
 
   afterAll(() => {
