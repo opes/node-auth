@@ -1,7 +1,7 @@
 {
   "name": "node-auth",
   "version": "1.0.0",
-  "description": "",
+  "description": "Node.js Authentication & Role-based Authorization",
   "main": "server.js",
   "type": "module",
   "scripts": {
