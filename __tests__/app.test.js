@@ -20,7 +20,7 @@ describe('node-auth', () => {
   const password = 'preciousmetals1';
 
   beforeEach(() => {
-    return setup(pool);
+    return setup(pool, false);
   });
 
   afterAll(() => {

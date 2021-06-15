@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
-export default (pool) => {
+export default (pool, closeConnection = true) => {
   return fs
     .readFile(
       path.join(
@@ -15,5 +15,5 @@ export default (pool) => {
       }
     )
     .then((sql) => pool.query(sql))
-    .finally(() => pool.end());
+    .finally(() => closeConnection && pool.end());
 };
