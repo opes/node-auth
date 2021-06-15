@@ -14,5 +14,6 @@ export default (pool) => {
         encoding: 'utf-8',
       }
     )
-    .then((sql) => pool.query(sql));
+    .then((sql) => pool.query(sql))
+    .finally(() => pool.end());
 };
