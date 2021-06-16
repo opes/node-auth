@@ -47,7 +47,7 @@ describe('node-auth', () => {
       const { body } = await agent.post('/api/v1/users/').send({
         email: 'bilbo@shire.net',
         password,
-        role: 'User',
+        role: 'user', // Case-insensitive, has to be a key in UserRoles
       });
       const user = await User.findByEmail('bilbo@shire.net');
 
