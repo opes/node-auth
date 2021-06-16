@@ -34,8 +34,9 @@ curl -d '{"email":"user@example.com","password":"hunter2"}' -H 'Content-Type: ap
 
 Once logged in, you'll be able to access the following routes:
 ```
-GET /api/v1/users (only available to the Admin role)
+GET /api/v1/users
 GET /api/v1/users/:id
+PATCH /api/v1/users/:id (only available to the Admin role)
 ```
 
 Any additional routes can use the `authenticate` middleware to require authentication:

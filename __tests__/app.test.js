@@ -57,25 +57,20 @@ describe('node-auth', () => {
     describe('authentication & authorization', () => {
       describe('when logged out', () => {
         it('returns status 401 when getting a user via GET /:id', async () => {
-          // Requesting the route directly without signing in:
           const { body } = await agent.get('/api/v1/users/1');
           expect(body.status).toBe(401);
-
-          // Sign in, then try requesting the route:
-          const user = await startSession();
-          const { text } = await agent.get('/api/v1/users/1');
-          expect(JSON.parse(text)).toStrictEqual(user.toJSON());
         });
 
         it('returns status 401 when listing users via GET /', async () => {
-          // Requesting the route directly without signing in:
-          const { body: userResp } = await request(app).get('/api/v1/users');
-          expect(userResp.status).toBe(401);
+          const { body } = await request(app).get('/api/v1/users');
+          expect(body.status).toBe(401);
+        });
 
-          // Sign in, then try requesting the route:
-          const user = await startSession({ admin: true });
-          const { body: adminResp } = await agent.get('/api/v1/users');
-          expect(adminResp).toStrictEqual([user.toJSON()]);
+        it('returns status 401 when updating a user via PATCH /:id', async () => {
+          const { body } = await request(app)
+            .patch('/api/v1/users/1')
+            .send({ email: 'not-signed-in@example.com' });
+          expect(body.status).toBe(401);
         });
       });
 
@@ -88,12 +83,19 @@ describe('node-auth', () => {
         });
 
         it('returns a user via GET /:id', async () => {
-          const { text } = await agent.get('/api/v1/users/1');
+          const { text } = await agent.get(`/api/v1/users/${user.id}`);
           expect(JSON.parse(text)).toStrictEqual(user.toJSON());
         });
 
-        it('returns 403 when listing users via GET /', async () => {
-          const { status } = await agent.get('/api/v1/users');
+        it('returns a list of users via GET /', async () => {
+          const { text } = await agent.get('/api/v1/users');
+          expect(JSON.parse(text)).toStrictEqual([user.toJSON()]);
+        });
+
+        it('returns a 403 when trying to update a user via PATCH /:id', async () => {
+          const { status } = await agent
+            .patch(`/api/v1/users/${user.id}`)
+            .send({ email: 'updated@example.com' });
           expect(status).toBe(403);
         });
       });
@@ -114,6 +116,17 @@ describe('node-auth', () => {
         it('returns a list of users via GET /', async () => {
           const { text } = await agent.get('/api/v1/users');
           expect(JSON.parse(text)).toStrictEqual([user.toJSON()]);
+        });
+
+        it('returns an updated user via PATCH /:id', async () => {
+          const email = 'updated@example.com';
+          const { text } = await agent
+            .patch(`/api/v1/users/${user.id}`)
+            .send({ email });
+          expect(JSON.parse(text)).toStrictEqual({
+            ...user.toJSON(),
+            email,
+          });
         });
       });
     });
