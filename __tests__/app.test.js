@@ -8,7 +8,7 @@ const agent = request.agent(app);
 const password = 'preciousmetals1';
 
 // Helper method for logging in a user
-const logIn = async (email, password) => {
+const login = async (email, password) => {
   const { body } = await agent
     .post('/api/v1/session')
     .send({ email, password });
@@ -22,7 +22,7 @@ const startSession = async ({ admin } = { admin: false }) => {
     password,
     role: admin ? 'Admin' : 'User',
   });
-  await logIn(user.email, password);
+  await login(user.email, password);
   return user;
 };
 
@@ -140,7 +140,7 @@ describe('node-auth', () => {
         role: 'User',
       });
 
-      const response = await logIn(email, password);
+      const response = await login(email, password);
       expect(response.success).toBe(true);
     });
 
